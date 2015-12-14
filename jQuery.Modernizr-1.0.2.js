@@ -93,7 +93,7 @@
           };
           var css = {left: -Math.round(((scaledWidth)-width)*posH)+'px'};
           $img.css(css);
-        }).trigger('resize');
+        });
         $.modernizr.resizes.push({
           type: 'backgroundSize',
           $: $this
