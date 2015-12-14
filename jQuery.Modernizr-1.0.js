@@ -25,9 +25,8 @@
     $.each(options, function(attr, val){
       //if(M.backgroundsize) return true;
       //M.bgsizecover
-      if(val == 'cover') {
+      if(val == 'cover' || val == 'contain') {
         var image = $this.css('backgroundImage').replace(/^url\(|\)$|[\"\'\'\"]/g, ''),
-            position = $this.css('backgroundPosition').split(' '),
             $img = $('<img>').attr('src', image).css({
               position: 'absolute',
               zIndex: 0
@@ -45,9 +44,10 @@
               imgHeight = img.height,
               scaledWidth = imgWidth * (height/imgHeight),
               scaledHeight = imgHeight * (width/imgWidth),
+              position = $this.css('backgroundPosition').split(' '),
               posV = position[1],
               posH = position[0];
-          if(scaledHeight >= height) {
+          if(scaledHeight >= height && val != 'contain') {
             $img.css({
               width: '100%',
               height: 'auto'
