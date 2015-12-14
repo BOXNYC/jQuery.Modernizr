@@ -40,9 +40,13 @@
           position: 'relative'
         }).on('resize', function(){
           var width = $this.width(),
+              height = $this.height(),
               imgWidth = img.width,
+              imgHeight = img.height,
+              scaledWidth = imgWidth * (height/imgHeight),
               scaledHeight = imgHeight * (width/imgWidth),
-              posV = position[1];
+              posV = position[1],
+              posH = position[0];
           if(scaledHeight <= height) {
             $img.css({
               width: '100%',
@@ -70,10 +74,6 @@
             width: 'auto',
             height: '100%'
           });
-          var imgHeight = img.height,
-              scaledWidth = imgWidth * (height/imgHeight),
-              height = $this.height(),
-              posH = position[0];
           switch(posH) {
             case 'center' : posH = 0.5; break;
             case 'top' : posH = 0.0; break;
@@ -84,7 +84,7 @@
               posH = parseInt(posH) / 100;
             } else if(posH.indexOf('px')>-1) {
               posH = parseInt(posH) / 100;
-              $img.css('top', posH);
+              $img.css('left', posH);
               return;
             };
           };
