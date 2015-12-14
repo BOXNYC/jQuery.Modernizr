@@ -40,7 +40,7 @@
           backgroundImage: 'none',
           overflow: 'hidden',
           position: 'relative'
-        }).bind('resize', function(){
+        }).bind('updateBackgroundSize', function(){
           var width = $this.width(),
               height = $this.height(),
               imgWidth = img.width,
@@ -119,7 +119,7 @@
                 cssChanged = true;
                 break;
               case 'backgroundSize' :
-                data.$.trigger('resize');
+                data.$.trigger('updateBackgroundSize');
                 break;
             }
           });
