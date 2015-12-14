@@ -40,7 +40,7 @@
           backgroundImage: 'none',
           overflow: 'hidden',
           position: 'relative'
-        }).on('resize', function(){
+        }).bind('resize', function(){
           var width = $this.width(),
               height = $this.height(),
               imgWidth = img.width,
