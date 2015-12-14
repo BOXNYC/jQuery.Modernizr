@@ -30,9 +30,7 @@
             position = $this.css('backgroundPosition').split(' '),
             $img = $('<img>').attr('src', image).css({
               position: 'absolute',
-              zIndex: 0,
-              width: '100%',
-              height: 'auto'
+              zIndex: 0
             }).prependTo($this);
         var img = new Image();
         img.src = image;
@@ -42,29 +40,55 @@
           position: 'relative'
         }).on('resize', function(){
           var width = $this.width(),
-              height = $this.height(),
-              imgHeight = img.height,
               imgWidth = img.width,
-              scale = width/imgWidth,
-              scaledHeight = imgHeight * scale,
-              posH = position[0],
+              scaledHeight = imgHeight * (width/imgWidth),
               posV = position[1];
-          if(posV == 'center') posV = 0.5;
-          switch(posV) {
-            case 'center' : posV = 0.5; break;
-            case 'top' : posV = 0.0; break;
-            case 'bottom' : posV = 1.0; break;
-          }
-          if(typeof posV !== 'number') {
-            if(posV.indexOf('%')>-1) {
-              posV = parseInt(posV) / 100;
-            } else if(posV.indexOf('px')>-1) {
-              posV = parseInt(posV) / 100;
-              $img.css('top', posV);
+          if(scaledHeight <= height) {
+            $img.css({
+              width: '100%',
+              height: 'auto'
+            });
+            switch(posV) {
+              case 'center' : posV = 0.5; break;
+              case 'top' : posV = 0.0; break;
+              case 'bottom' : posV = 1.0; break;
+            };
+            if(typeof posV !== 'number') {
+              if(posV.indexOf('%')>-1) {
+                posV = parseInt(posV) / 100;
+              } else if(posV.indexOf('px')>-1) {
+                posV = parseInt(posV) / 100;
+                $img.css('top', posV);
+                return;
+              };
+            };
+            var css = {top: -Math.round(((scaledHeight)-height)*posV)+'px'};
+            $img.css(css);
+            return;
+          };
+          $img.css({
+            width: 'auto',
+            height: '100%'
+          });
+          var imgHeight = img.height,
+              scaledWidth = imgWidth * (height/imgHeight),
+              height = $this.height(),
+              posH = position[0];
+          switch(posH) {
+            case 'center' : posH = 0.5; break;
+            case 'top' : posH = 0.0; break;
+            case 'bottom' : posH = 1.0; break;
+          };
+          if(typeof posH !== 'number') {
+            if(posH.indexOf('%')>-1) {
+              posH = parseInt(posH) / 100;
+            } else if(posH.indexOf('px')>-1) {
+              posH = parseInt(posH) / 100;
+              $img.css('top', posH);
               return;
-            }
-          }
-          var css = {top: -Math.round(((scaledHeight)-height)*posV)+'px'};
+            };
+          };
+          var css = {left: -Math.round(((scaledWidth)-width)*posH)+'px'};
           $img.css(css);
         }).trigger('resize');
       }
