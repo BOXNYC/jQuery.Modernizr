@@ -12,10 +12,11 @@
     $.each(options, function(attr, val){
       var valData = /^([\-0-9]{1,})\s*(vw|vh)$/i.exec(val);
       if(valData == null) return true;
-      if(M.cssvwunit) return true;
+      if(M.cssvwunit || M.cssvhunit) return true;
       if(typeof $.modernizr.resizes === 'undefined')
         $.modernizr.resizes = [];
       $.modernizr.resizes.push({
+        type: 'viewportUnits',
         attr: attr,
         unit: valData[2],
         value: valData[1]
@@ -93,8 +94,9 @@
           var css = {left: -Math.round(((scaledWidth)-width)*posH)+'px'};
           $img.css(css);
         }).trigger('resize');
-        $.modernizr.resizes.push(function(){
-          $this.trigger('resize');
+        $.modernizr.resizes.push({
+          type: 'backgroundSize',
+          $: $this
         });
       }
     });
@@ -103,21 +105,25 @@
       if(typeof $.modernizr.resize === 'undefined') {
         var $window = $(window);
         $.modernizr.resize = function(){
-          $.each($.modernizr.resizes, function(i, data){
-            if(typeof data !== 'function') return true;
-            data();
-          });
           var size = {vw: 0, vh: 0},
-              css = {};
+              css = {},
+              cssChanged = false;
           $.each($.modernizr.resizes, function(i, data){
-            if(typeof data !== 'object') return true;
-            if(!size.vw && data.unit == 'vw') size.vw = $window.width();
-            if(!size.vh && data.unit == 'vh') size.vh = $window.height();
-            var percent = parseInt(data.value) / 100,
-                viewportSize = size[data.unit];
-            css[data.attr] = Math.round(percent * viewportSize) + 'px';
+            switch(data.type) {
+              case 'viewportUnits' :
+                if(!size.vw && data.unit == 'vw') size.vw = $window.width();
+                if(!size.vh && data.unit == 'vh') size.vh = $window.height();
+                var percent = parseInt(data.value) / 100,
+                    viewportSize = size[data.unit];
+                css[data.attr] = Math.round(percent * viewportSize) + 'px';
+                cssChanged = true;
+                break;
+              case 'backgroundSize' :
+                data.$.trigger('resize');
+                break;
+            }
           });
-          $this.css(css);
+          if(cssChanged) $this.css(css);
         }
         $window.on('resize', $.modernizr.resize).trigger('resize');
       }
