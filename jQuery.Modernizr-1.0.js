@@ -37,7 +37,8 @@
           backgroundImage: 'none',
           overflow: 'hidden',
           position: 'relative'
-        }).on('resize', function(){
+        });
+        $(window).on('resize', function(){
           var width = $this.width(),
               height = $this.height(),
               imgWidth = img.width,
@@ -48,6 +49,7 @@
               posV = position[1],
               posH = position[0];
           if(scaledHeight >= height && val != 'contain') {
+            console.log(1);
             $img.css({
               width: '100%',
               height: 'auto'
