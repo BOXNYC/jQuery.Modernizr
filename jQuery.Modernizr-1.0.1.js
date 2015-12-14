@@ -35,9 +35,6 @@
         img.src = image;
         if(typeof $.modernizr.resizes === 'undefined')
           $.modernizr.resizes = [];
-        $.modernizr.resizes.push(function(){
-          $this.trigger('resize');
-        });
         $this.css({
           backgroundImage: 'none',
           overflow: 'hidden',
@@ -96,6 +93,9 @@
           var css = {left: -Math.round(((scaledWidth)-width)*posH)+'px'};
           $img.css(css);
         }).trigger('resize');
+        $.modernizr.resizes.push(function(){
+          $this.trigger('resize');
+        });
       }
     });
     // Window resizes
