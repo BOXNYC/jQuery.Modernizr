@@ -24,8 +24,8 @@
     });
     // BackgroundSize
     $.each(options, function(attr, val){
-      //if(M.backgroundsize) return true;
-      //M.bgsizecover
+      if(M.backgroundsize) return true;
+      if(M.bgsizecover) return true;
       if(val == 'cover' || val == 'contain') {
         var image = $this.css('backgroundImage').replace(/^url\(|\)$|[\"\'\'\"]/g, ''),
             $img = $('<img>').attr('src', image).css({
