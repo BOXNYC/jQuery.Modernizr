@@ -8,6 +8,7 @@
       options = {};
       options[arg0] = arg1;
     }
+    // Viewport Height/Width Unit
     $.each(options, function(attr, val){
       var valData = /^([\-0-9]{1,})\s*(vw|vh)$/i.exec(val);
       if(valData == null) return true;
@@ -19,6 +20,27 @@
         unit: valData[2],
         value: valData[1]
       });
+    });
+    // BackgroundSize
+    $.each(options, function(attr, val){
+      //if(M.backgroundsize) return true;
+      //M.bgsizecover
+      if(val == 'cover') {
+        var image = $this.css('backgroundImage').replace(/^url\(|\)$|\"\'/g, ''),
+            position = $this.css('backgroundPosition').split(' '),
+            $img = $('<img>').attr('src', image).css({
+              position: 'absolute',
+              zIndex: 0,
+              width: '100%',
+              height: 'auto'
+            }).prependTo($this);
+        $this.css('backgroundImage', 'none').on('resize', function(){
+          var width = $this.width(),
+              height = $this.height(),
+              css = {};
+          $img.css(css);
+        }).trigger('resize');
+      }
     });
     if(typeof $.modernizr.resizes !== 'undefined' && $.modernizr.resizes.length) {
       if(typeof $.modernizr.resize === 'undefined') {
