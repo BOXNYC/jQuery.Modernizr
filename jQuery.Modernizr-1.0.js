@@ -3,7 +3,7 @@
   $.fn.modernizr = function(arg0, arg1){
     var $this = $(this),
         options = arg0;
-    if(typeof $.moderniz === 'undefined') $.moderniz = {};
+    if(typeof $.modernizr === 'undefined') $.modernizr = {};
     if(typeof options !== 'object') {
       options = {};
       options[arg0] = arg1;
@@ -12,21 +12,21 @@
       var valData = /^([\-0-9]{1,})\s*(vw|vh)$/i.exec(val);
       if(valData == null) return true;
       if(M.cssvwunit) return true;
-      if(typeof $.moderniz.resizes === 'undefined')
-        $.moderniz.resizes = [];
-      $.moderniz.resizes.push({
+      if(typeof $.modernizr.resizes === 'undefined')
+        $.modernizr.resizes = [];
+      $.modernizr.resizes.push({
         attr: attr,
         unit: valData[2],
         value: valData[1]
       });
     });
-    if(typeof $.moderniz.resizes !== 'undefined' && $.moderniz.resizes.length) {
-      if(typeof $.moderniz.resize === 'undefined') {
+    if(typeof $.modernizr.resizes !== 'undefined' && $.modernizr.resizes.length) {
+      if(typeof $.modernizr.resize === 'undefined') {
         var $window = $(window);
-        $.moderniz.resize = function(){
+        $.modernizr.resize = function(){
           var size = {vw: 0, vh: 0},
               css = {};
-          $.each($.moderniz.resizes, function(i, data){
+          $.each($.modernizr.resizes, function(i, data){
             if(!size.vw && data.unit == 'vw') size.vw = $window.width();
             if(!size.vh && data.unit == 'vh') size.vh = $window.height();
             var percent = parseInt(data.value) / 100,
@@ -35,7 +35,7 @@
           });
           $this.css(css);
         }
-        $window.on('resize', $.moderniz.resize).trigger('resize');
+        $window.on('resize', $.modernizr.resize).trigger('resize');
       }
     };
     return $this;
