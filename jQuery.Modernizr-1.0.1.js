@@ -106,7 +106,7 @@
           $.each($.modernizr.resizes, function(i, data){
             if(typeof data !== 'function') return true;
             data();
-          )};
+          });
           var size = {vw: 0, vh: 0},
               css = {};
           $.each($.modernizr.resizes, function(i, data){
