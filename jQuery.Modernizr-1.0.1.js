@@ -53,7 +53,6 @@
               posV = position[1],
               posH = position[0];
           if(scaledHeight >= height && val != 'contain') {
-            console.log(1);
             $img.css({
               width: '100%',
               height: 'auto'
@@ -104,13 +103,14 @@
       if(typeof $.modernizr.resize === 'undefined') {
         var $window = $(window);
         $.modernizr.resize = function(){
+          $.each($.modernizr.resizes, function(i, data){
+            if(typeof data !== 'function') return true;
+            data();
+          )};
           var size = {vw: 0, vh: 0},
               css = {};
           $.each($.modernizr.resizes, function(i, data){
-            if(typeof data === 'function') {
-              data();
-              return true;
-            };
+            if(typeof data !== 'object') return true;
             if(!size.vw && data.unit == 'vw') size.vw = $window.width();
             if(!size.vh && data.unit == 'vh') size.vh = $window.height();
             var percent = parseInt(data.value) / 100,
