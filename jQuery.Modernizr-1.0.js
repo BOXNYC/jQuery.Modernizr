@@ -34,18 +34,37 @@
               width: '100%',
               height: 'auto'
             }).prependTo($this);
+        var img = new Image();
+        img.src = image;
         $this.css({
           backgroundImage: 'none',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          position: 'relative'
         }).on('resize', function(){
-          var img = new Image();
-          img.src = image;
           var width = $this.width(),
               height = $this.height(),
               imgHeight = img.height,
               imgWidth = img.width,
               scale = width/imgWidth,
-              css = {top: -Math.round(((imgHeight*scale)-height)/2)+'px'};
+              scaledHeight = imgHeight * scale,
+              posH = position[0],
+              posV = position[1];
+          if(posV == 'center') posV = 0.5;
+          switch(posV) {
+            case 'center' : posV = 0.5; break;
+            case 'top' : posV = 0.0; break;
+            case 'bottom' : posV = 1.0; break;
+          }
+          if(typeof posV !== 'number') {
+            if(posV.indexOf('%')>-1) {
+              posV = parseInt(posV) / 100;
+            } else if(posV.indexOf('px')>-1) {
+              posV = parseInt(posV) / 100;
+              $img.css('top', posV);
+              return;
+            }
+          }
+          var css = {top: -Math.round(((scaledHeight)-height)*posV)+'px'};
           $img.css(css);
         }).trigger('resize');
       }
