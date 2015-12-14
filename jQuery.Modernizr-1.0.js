@@ -38,13 +38,14 @@
           backgroundImage: 'none',
           overflow: 'hidden'
         }).on('resize', function(){
+          var img = new Image();
+          img.src = image;
           var width = $this.width(),
               height = $this.height(),
-              img = new Image();
-          img.src = image;
-          var imgHeight = img.height,
+              imgHeight = img.height,
               imgWidth = img.width,
-              css = {top: -Math.round((imgHeight-height)/2)+'px'};
+              scale = width/imgWidth,
+              css = {top: -Math.round(((imgHeight*scale)-height)/2)+'px'};
           $img.css(css);
         }).trigger('resize');
       }
