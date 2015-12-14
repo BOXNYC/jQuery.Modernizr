@@ -33,12 +33,16 @@
             }).prependTo($this);
         var img = new Image();
         img.src = image;
+        if(typeof $.modernizr.resizes === 'undefined')
+          $.modernizr.resizes = [];
+        $.modernizr.resizes.push(function(){
+          $this.trigger('resize');
+        });
         $this.css({
           backgroundImage: 'none',
           overflow: 'hidden',
           position: 'relative'
-        });
-        $(window).on('resize', function(){
+        }).on('resize', function(){
           var width = $this.width(),
               height = $this.height(),
               imgWidth = img.width,
@@ -95,6 +99,7 @@
         }).trigger('resize');
       }
     });
+    // Window resizes
     if(typeof $.modernizr.resizes !== 'undefined' && $.modernizr.resizes.length) {
       if(typeof $.modernizr.resize === 'undefined') {
         var $window = $(window);
@@ -102,6 +107,10 @@
           var size = {vw: 0, vh: 0},
               css = {};
           $.each($.modernizr.resizes, function(i, data){
+            if(typeof data === 'function') {
+              data();
+              return true;
+            };
             if(!size.vw && data.unit == 'vw') size.vw = $window.width();
             if(!size.vh && data.unit == 'vh') size.vh = $window.height();
             var percent = parseInt(data.value) / 100,
