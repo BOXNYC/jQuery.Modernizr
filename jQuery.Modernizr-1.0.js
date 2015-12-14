@@ -47,7 +47,7 @@
               scaledHeight = imgHeight * (width/imgWidth),
               posV = position[1],
               posH = position[0];
-          if(scaledHeight <= height) {
+          if(scaledHeight >= height) {
             $img.css({
               width: '100%',
               height: 'auto'
