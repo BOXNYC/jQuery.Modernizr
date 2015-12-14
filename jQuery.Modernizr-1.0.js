@@ -34,10 +34,17 @@
               width: '100%',
               height: 'auto'
             }).prependTo($this);
-        $this.css('backgroundImage', 'none').on('resize', function(){
+        $this.css({
+          backgroundImage: 'none',
+          overflow: 'hidden'
+        }).on('resize', function(){
           var width = $this.width(),
               height = $this.height(),
-              css = {};
+              img = new Image();
+          img.src = image;
+          var imgHeight = img.height,
+              imgWidth = img.width,
+              css = {top: -Math.round((imgHeight-height)/2)+'px'};
           $img.css(css);
         }).trigger('resize');
       }
