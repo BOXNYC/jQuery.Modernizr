@@ -26,7 +26,7 @@
       //if(M.backgroundsize) return true;
       //M.bgsizecover
       if(val == 'cover') {
-        var image = $this.css('backgroundImage').replace(/^url\(|\)$|\"\'/g, ''),
+        var image = $this.css('backgroundImage').replace(/^url\(|\)$|\"|\'/g, ''),
             position = $this.css('backgroundPosition').split(' '),
             $img = $('<img>').attr('src', image).css({
               position: 'absolute',
