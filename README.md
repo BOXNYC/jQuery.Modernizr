@@ -1,6 +1,6 @@
 # jQuery.Modernizr
 
-https://cdn.rawgit.com/BOXNYC/jQuery.Modernizr/master/modernizr-3.2.0-custom-CSS3.js
+https://cdn.jsdelivr.net/gh/BOXNYC/jQuery.Modernizr/modernizr-3.2.0-custom-CSS3.js
 -backgroundsize
 -bgsizecover
 -cssvhunit
